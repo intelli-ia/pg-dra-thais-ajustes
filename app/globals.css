@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-poppins);
+  --font-serif: var(--font-poppins);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #F0E3D0;
+  color: #3d5a5a;
+  font-family: var(--font-poppins), system-ui, sans-serif;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+details[open] > p {
+  animation: fade 0.5s ease;
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.marquee-track {
+  animation: marquee 100s linear infinite;
+  will-change: transform;
+}
+.marquee-reverse {
+  animation-direction: reverse;
+}
+/* Pausa no hover apenas com mouse; no toque o hover "gruda" e interromperia o loop */
+@media (hover: hover) and (pointer: fine) {
+  .marquee-row:hover .marquee-track {
+    animation-play-state: paused;
+  }
+}
+/* No toque, o carrossel não captura gestos: o scroll da página segue livre e o loop nunca para */
+@media (pointer: coarse) {
+  .marquee-row {
+    pointer-events: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+section[id] {
+  scroll-margin-top: 80px;
+}
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F0E3D0;
+}
+::-webkit-scrollbar-thumb {
+  background: #BD7475;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #174B4B;
+}
+
+/* Escala tipográfica dos títulos (fluida, para copys longas) */
+@utility type-hero {
+  font-size: clamp(2.125rem, 1.2rem + 3.2vw, 3.75rem);
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+@utility type-section {
+  font-size: clamp(1.875rem, 1.25rem + 2.2vw, 3rem);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+@utility type-card {
+  font-size: clamp(1.375rem, 1.1rem + 0.9vw, 1.75rem);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+@utility type-sub {
+  font-size: clamp(1.625rem, 1.2rem + 1.4vw, 2.25rem);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+/* Elementos lúdicos (pediatria) */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  50% { opacity: 0.55; transform: scale(0.8) rotate(12deg); }
+}
+@keyframes cta-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+.cta-pulse { animation: cta-pulse 2s ease-in-out infinite; }
+.cta-pulse:hover { animation-play-state: paused; }
+.float-slow { animation: float-slow 7s ease-in-out infinite; }
+.twinkle { animation: twinkle 3.5s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .float-slow, .twinkle, .cta-pulse { animation: none; }
+}
